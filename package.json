@@ -4,8 +4,8 @@
   "description": "Controle de Banda Larga",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "prestart": "npm install",
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
@@ -14,7 +14,10 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
+    "express": "^4.17.1",
     "js-yaml": "^3.3.0",
+    "mongoose": "^5.7.13",
+    "node-restful": "^0.2.6",
     "oas3-tools": "^1.0.1"
   }
 }
