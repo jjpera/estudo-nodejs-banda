@@ -1,4 +1,4 @@
-const port = 4000;
+const port = 8083;
 //BODY parse of requistion
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -11,5 +11,8 @@ server.listen(process.env.PORT || port, function () {
   console.log('Listening on');
 });
 
+// adiciona conexão com o banco
 require('./repository/Connection')
+
+// inicia controller
 require('./controllers/BandaController')(server)
