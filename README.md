@@ -1,5 +1,3 @@
-# https://github.com/thiagoluiznunes/API-NodeExpressMongo/blob/master/myFolder/config/routes.js
-
 # Swagger generated server
 
 ## Overview
