@@ -4,9 +4,11 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const server = express();
 
-server.use(bodyParser.urlencoded({ extended: true }));
+// configurações app
 server.use(bodyParser.json());
+//server.use(bodyParser.urlencoded({ extended: true }));
 
+// servico ativo
 server.listen(process.env.PORT || port, function () {
   console.log('Listening on');
 });

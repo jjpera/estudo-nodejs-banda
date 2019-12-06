@@ -1,48 +1,51 @@
 const express = require('express');
-//var BandaModel = require("../model/Banda.js");
+var bandaService = require('../service/BandaService');
 
 module.exports = function(server) {
     //API Routes
     const router = express.Router();
     server.use('/bandas', router);
 
-    // ?velocidade=:velocidade&tecnologia=:tecnologia
     router.get('/banda', find);
-    router.post('/banda', cadastrarBanda);
+    router.post('/banda', insert);
+    router.put('/banda/:codigo', edit);
+    router.delete('/banda/:codigo', remove);
 
-    //Registering API methods in router
-    
+    //BandaModel.methods(['get', 'post', 'put', 'delete']);
     //BandaModel.updateOptions({new: true, runValidators: true});
     //BandaModel.register(router, '/banda');
 }
 
-const find = (req, res, next) => {
-    const velocidade = req.params.velocidade;
-    const tecnologia = req.params.tecnologia;
-    
-    console.log("velocidade: " +  velocidade);
-    console.log("tecnologia: " +  tecnologia);
-
-    // alterar para chamar o service
-    BandaModel.find({'tecnologia' : tecnologia}, (err, item) => {
-        if (err) {
-            return handleError(err);
-        } else {
-            res.json(item);
-        }
-    });
+const insert = function (req, res, next) {
+    console.log("Controller.Insert: " + JSON.stringify(req.body));
+    bandaService.insert(req.body, res);
 };
 
-const cadastrarBanda = function (req, res, next) {
+const edit = function (req, res, next) {
+    const id = req.params.codigo;
+    console.log("Controller.Update: " + JSON.stringify(req.body));
+    bandaService.update(id, req.body, res);
+};
 
-    console.log(req.body);
+const find = (req, res, next) => {
+    var banda = {};
+    if (req.query.velocidade) {
+        banda.velocidade = req.query.velocidade;
+    }
+    if (req.query.tecnologia) {
+        banda.tecnologia = req.query.tecnologia;
+    }
 
-    //var body = req.params['body'].value;
-    //console.log(body);
-    /*BandaLarga.cadastrarBanda(body).then(function (response) {
-        utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-        utils.writeJson(res, response);
-    });*/
+    const pagina = Number(req.query.pagina);
+    const qtdePagina = Number(req.query.qtdePagina);
+
+    console.log("Controller.Find: banda:" + banda
+        + " pagina:" + pagina + " qtdePagina:" + qtdePagina);
+    bandaService.find(banda, pagina, qtdePagina, res);
+};
+
+const remove = function (req, res, next) {
+    const id = req.params.codigo;
+    console.log("Controller.Delete: " + id);
+    bandaService.delete(id, res);
 };

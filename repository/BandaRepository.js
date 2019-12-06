@@ -2,11 +2,8 @@
 
 var BandaModel = require("../model/Banda.js");
 
-
-//////////////////////////////////////////////////////
 exports.Insert = function(banda) {
-
-    console.log("Insert, gerando bandaModel");
+    console.log("Insert, gerando bandaModel: " + banda.velocidade + " " + banda.tecnologia);
 
     let bandaModel = new BandaModel({
         velocidade: banda.velocidade,
@@ -15,65 +12,34 @@ exports.Insert = function(banda) {
 
     console.log("Insert, salvando");
 
-    bandaModel.save().then(doc => {
-        console.log(doc)
-    }).catch(err => {
-        console.error(err)
-    })
+    return bandaModel.save();
 }
 
-exports.Update = function(banda) {
-    let bandaModel = new BandaModel({
-        velocidade: banda.velocidade,
-        tecnologia: banda.tecnologia
-    });
-
-    bandaModel.findOneAndUpdate({
-        _id: banda._id // find pelo id
+exports.Update = function(id, banda) {
+    return BandaModel.findOneAndUpdate({
+        _id: id // find pelo id
     }, {
         velocidade: banda.velocidade, // atualiza campo velocidade
         tecnologia: banda.tecnologia  // atualiza campo tecnologia
     }, {
-        new: true,          // return updated doc
         runValidators: true // validate before update
-    }).then(doc => {
-        console.log(doc)
-    }).catch(err => {
-        console.error(err)
-    })
+    });
 }
 
-exports.Find = function(banda) {
-    let bandaModel = new BandaModel({
-        velocidade: banda.velocidade,
-        tecnologia: banda.tecnologia
-    });
+exports.Find = function(banda, pagina, qtdePagina) {
 
-    bandaModel.find({
-        velocidade: banda.velocidade,
-        tecnologia: banda.tecnologia
-    }).sort({
+    return BandaModel.find(banda).sort({
         velocidade: 1,
-        tecnologia: 2
-    }).exec()
-    .then(doc => {
-        console.log(doc)
-    })
-    .catch(err => {
-        console.error(err)
-    })
+        tecnologia: 1
+    }).skip(pagina * qtdePagina).limit(qtdePagina).exec();
 }
 
 exports.Delete = function(id) {
-    let bandaModel = new BandaModel({
+    return BandaModel.findOneAndRemove({
         _id: id
     });
+}
 
-    bandaModel.findOneAndRemove({
-        _id: _id
-    }).then(response => {
-        console.log(response)
-    }).catch(err => {
-        console.error(err)
-    })
+exports.Count = function(banda) {
+    return BandaModel.countDocuments(banda);
 }
