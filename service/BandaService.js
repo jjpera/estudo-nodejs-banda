@@ -1,10 +1,8 @@
 const bandaRepository = require('../repository/BandaRepository');
+const RetornoBanda = require('../model/RetornoBanda')
 
 module.exports.insert = function(banda, res) {
-    var retornoBanda = ({
-        codigo: 0,
-        descricao: "success"
-    });
+    var retornoBanda = RetornoBanda.instance();
 
     bandaRepository.Insert(banda).then(docs => {
         retornoBanda.listaBanda = [docs];
@@ -17,10 +15,7 @@ module.exports.insert = function(banda, res) {
 }
 
 module.exports.update = function(id, banda, res) {
-    var retornoBanda = ({
-        codigo: 0,
-        descricao: "success"
-    });
+    var retornoBanda = RetornoBanda.instance();
 
     bandaRepository.Update(id, banda).then(docs => {
         retornoBanda.listaBanda = [docs];
@@ -33,12 +28,7 @@ module.exports.update = function(id, banda, res) {
 }
 
 module.exports.find = function(banda, pagina, qtdePagina, res) {
-    var retornoBanda = ({
-        codigo: 0,
-        descricao: "success",
-        pagina: pagina,
-        qtdePagina: qtdePagina
-    });
+    var retornoBanda = RetornoBanda.instance(pagina, qtdePagina);
 
     bandaRepository.Find(banda, pagina, qtdePagina).then(docs => {
         retornoBanda.listaBanda = docs;
@@ -54,10 +44,7 @@ module.exports.find = function(banda, pagina, qtdePagina, res) {
 }
 
 module.exports.delete = function(id, res) {
-    var retornoBanda = ({
-        codigo: 0,
-        descricao: "success"
-    });
+    var retornoBanda = RetornoBanda.instance();
 
     bandaRepository.Delete(id).then(docs => {
         retornoBanda.listaBanda = docs;

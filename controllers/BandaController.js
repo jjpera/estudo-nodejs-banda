@@ -39,8 +39,7 @@ const find = (req, res, next) => {
     const pagina = Number(req.query.pagina);
     const qtdePagina = Number(req.query.qtdePagina);
 
-    console.log("Controller.Find: banda:" + banda
-        + " pagina:" + pagina + " qtdePagina:" + qtdePagina);
+    console.log("Controller.Find: banda:" + JSON.stringify(banda) + " pagina:" + pagina + " qtdePagina:" + qtdePagina);
     bandaService.find(banda, pagina, qtdePagina, res);
 };
 
